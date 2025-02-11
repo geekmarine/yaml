@@ -1,0 +1,43 @@
+mqtt:
+  enabled: false
+cameras:
+  front_door:
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:password@192.168.1.191:554/MediaInput
+          roles:
+            - detect
+            - record
+  back_deck:
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:password@192.168.1.192:554/h264_stream
+          roles:
+            - detect
+            - record
+   driveway:  # Added camera 193
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:password@192.168.1.193:554/h264_stream
+          roles:
+            - detect
+            - record          
+ objects: # You can customize these per camera
+      track:
+        - person
+        - dog
+        - bicycle
+        - car
+        - motorcycle
+    detect: # You can customize these per camera
+      width: 2304
+      height: 1296
+    record: # You can customize these per camera
+      enabled: True
+      retain:
+        days: 30
+        mode: all
+detectors:
+  cpu1:
+    type: cpu
+    num_threads: 3
