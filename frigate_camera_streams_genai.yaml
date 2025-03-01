@@ -1,43 +1,121 @@
 mqtt:
   enabled: false
+
+record:
+  enabled: true
+  retain:
+    days: 45
+    mode: motion
+  alerts:
+    retain:
+      days: 45
+  detections:
+    retain:
+      days: 45
+
+snapshots:
+  enabled: true
+  retain:
+    default: 30
+
+genai:
+  enabled: True
+  provider: ollama
+  base_url: http://192.168.1.10:7869
+  model: moondream:latest
+
 cameras:
-  front_door:
+  front_door: # <------ Name the camera
+    enabled: true
+    detect:
+      width: 1920
+      height: 1080
+      fps: 6
     ffmpeg:
       inputs:
-        - path: rtsp://admin:password@192.168.1.191:554/MediaInput
+        - path: rtsp://admin:Nonibear#1@192.168.1.191:554/MediaInput  # <----- The stream you want to use for detection
           roles:
             - detect
             - record
-  back_deck:
-    ffmpeg:
-      inputs:
-        - path: rtsp://admin:password@192.168.1.192:554/h264_stream
-          roles:
-            - detect
-            - record
-   driveway:  # Added camera 193
-    ffmpeg:
-      inputs:
-        - path: rtsp://admin:password@192.168.1.193:554/h264_stream
-          roles:
-            - detect
-            - record          
- objects: # You can customize these per camera
+    objects: # You can customize these per camera
       track:
         - person
         - dog
         - bicycle
         - car
         - motorcycle
-    detect: # You can customize these per camera
-      width: 2304
-      height: 1296
-    record: # You can customize these per camera
+        - face
+        - license_plate
+        - cat
+        - amazon
+        - fedex
+        - ups
+        - package
+    genai:
       enabled: True
-      retain:
-        days: 30
-        mode: all
-detectors:
-  cpu1:
-    type: cpu
-    num_threads: 3
+      provider: ollama
+      base_url: http://192.168.1.10:7869
+      model: moondream:latest
+  back_deck:
+    enabled: true
+    detect:
+      width: 1920
+      height: 1080
+      fps: 6
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:Nonibear#1@192.168.1.192:554/h264_stream
+          roles:
+            - detect
+            - record
+    objects: # You can customize these per camera
+      track:
+        - person
+        - dog
+        - bicycle
+        - car
+        - motorcycle
+        - face
+        - license_plate
+        - cat
+        - amazon
+        - fedex
+        - ups
+        - package
+    genai:
+      enabled: True
+      provider: ollama
+      base_url: http://192.168.1.10:7869
+      model: moondream:latest
+  driveway:
+    enabled: true
+    detect:
+      width: 1920
+      height: 1080
+      fps: 6
+    ffmpeg:
+      inputs:
+        - path: rtsp://admin:Nonibear#1@192.168.1.193:554/h264_stream
+          roles:
+            - detect
+            - record
+    objects: # You can customize these per camera
+      track:
+        - person
+        - dog
+        - bicycle
+        - car
+        - motorcycle
+        - face
+        - license_plate
+        - cat
+        - amazon
+        - fedex
+        - ups
+        - package
+    genai:
+      enabled: True
+      provider: ollama
+      base_url: http://192.168.1.10:7869
+      model: moondream:latest
+version: 0.15-1
